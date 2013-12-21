@@ -37,14 +37,12 @@ public class ExampleProxy extends TiViewProxy
 	// Standard Debugging variables
 	private static final String LCAT = "ExampleProxy";
 	private static final boolean DBG = TiConfig.LOGD;
-	
-	@Kroll.constant public static final String PIE_CHART = "pie";
-	@Kroll.constant public static final String LINE_CHART = "line";
-	@Kroll.constant public static final String BAR_CHART = "bar";
+
 	
 	String chartType = "pie";
 	PieGraph pieGraph;
 	JSONArray jsonArray = new JSONArray();
+	Object[] data = null;
 
 	/*
 	data =  [
@@ -58,29 +56,54 @@ public class ExampleProxy extends TiViewProxy
 			super(proxy);
 			
 			View chartWrapper = new View(getActivity());
-			if(chartType == PIE_CHART){
-				LayoutInflater inflater = LayoutInflater.from(getActivity());
-				chartWrapper = inflater.inflate(Utility.resId_pieChartLayout, null);
-				pieGraph = (PieGraph) chartWrapper.findViewById(Utility.resId_pieChart);
-	
-				PieSlice slice = new PieSlice();
-				slice.setColor(Color.parseColor("#99CC00"));
-				slice.setValue(2);
-				pieGraph.addSlice(slice);
+
+			LayoutInflater inflater = LayoutInflater.from(getActivity());
+			chartWrapper = inflater.inflate(Utility.resId_pieChartLayout, null);
+			pieGraph = (PieGraph) chartWrapper.findViewById(Utility.resId_pieChart);
+			
+				System.out.println("@@## chk 1");
+				System.out.println("@@## data = "+data.toString());
+				System.out.println("@@## data len = "+data.length);
+				if(data.length > 0){
+					for(int k = 0; k< data.length; k++){
+						//Object[] tt = (Object[]) data[k];
+						//System.out.println("@@## tt = "+tt[0]);
+
+						Object[] item = (Object[]) data[k];
+						System.out.println("@@## item len  = "+item.length);
+						PieSlice slice = new PieSlice();
+						slice.setColor(Color.parseColor((String) item[1]));
+						System.out.println("@@## before val  = "+item[2]);
+						Float val = new Float((Integer) item[2]);
+						System.out.println("@@## after val  = "+val);
+						slice.setValue(val);
+						pieGraph.addSlice(slice);
+						
+						for(int l=0; l<item.length; l++){
+							System.out.println("@@## item element  = "+item[l]);
+						}
+					}
+				}
+				
+
+				/*
 				slice = new PieSlice();
 				slice.setColor(Color.parseColor("#FFBB33"));
 				slice.setValue(3);
 				pieGraph.addSlice(slice);
+				
 				slice = new PieSlice();
 				slice.setColor(Color.parseColor("#AA66CC"));
 				slice.setValue(8);
 				pieGraph.addSlice(slice);
-			} else if(chartType == LINE_CHART){
+				*/
+				System.out.println("@@## chk 3");
+			//} else if(chartType == LINE_CHART){
 				
-			} else if(chartType == BAR_CHART){
+			//} else if(chartType == BAR_CHART){
 				
-			} 
-
+			//} 
+			System.out.println("@@## chk 4");
 			setNativeView(chartWrapper);
 		}
 
@@ -114,9 +137,10 @@ public class ExampleProxy extends TiViewProxy
 	public void handleCreationDict(KrollDict options) {
 		super.handleCreationDict(options);
 
-		if (options.containsKey("chartType")) {
-			System.out.println("@@## obj chartType vale = "+options.getString("chartType"));
-			chartType = (String) options.getString("chartType");
+		if (options.containsKey("data")) {
+			data = (Object[]) options.get("data");
+		} else {
+			System.out.println("@@## no key data ");
 		}
 	}
 	
