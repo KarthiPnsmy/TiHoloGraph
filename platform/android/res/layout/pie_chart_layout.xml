@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:orientation="vertical"
 android:gravity="center">
-	<titutorial.holograph.PieGraph
+	<com.echo.holographlibrary.PieGraph
 	android:layout_width="match_parent"
 	android:layout_height="200dp"
 	android:id="@+id/pie_chart"/>

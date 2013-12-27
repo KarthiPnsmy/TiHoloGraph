@@ -5,8 +5,8 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:orientation="vertical"
 android:gravity="center">	
-	<com.echo.holographlibrary.BarGraph
+	<com.echo.holographlibrary.LineGraph
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/bar_chart"/>
+        android:id="@+id/line_chart"/>
 </LinearLayout>

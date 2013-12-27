@@ -7,8 +7,9 @@ import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.proxy.TiViewProxy;
 import org.appcelerator.titanium.view.TiUIView;
 
-import titutorial.holograph.BarGraph.OnBarClickedListener;
-
+//import titutorial.holograph.BarGraph.OnBarClickedListener; com.echo.holographlibrary
+import com.echo.holographlibrary.Bar;
+import com.echo.holographlibrary.BarGraph.OnBarClickedListener; 
 import android.app.Activity;
 import android.graphics.Color;
 
@@ -22,7 +23,7 @@ public class BarChartProxy extends TiViewProxy {
 	boolean hasBarClickListener = false;
 
 	@Override
-	public BarChartView createView(Activity arg0) {
+	public BarChartView createView(Activity activity) {
 		
 		hasBarClickListener = hasListeners("barClick");
 		System.out.println("@@## hasBarClickListener = "+hasBarClickListener);
@@ -56,8 +57,8 @@ public class BarChartProxy extends TiViewProxy {
 		} else {
 			System.out.println("@@## no key data ");
 		}
-
 	}
+	
 	@Kroll.method
 	public void setShowBarText(boolean show) {
 		barChartView.setShowBarText(show);

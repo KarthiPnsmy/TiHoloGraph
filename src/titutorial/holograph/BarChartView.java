@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.appcelerator.titanium.proxy.TiViewProxy;
 import org.appcelerator.titanium.view.TiUIView;
 
-import titutorial.holograph.BarGraph.OnBarClickedListener;
+import com.echo.holographlibrary.Bar;
+import com.echo.holographlibrary.BarGraph;
+import com.echo.holographlibrary.BarGraph.OnBarClickedListener;
 
 
 import android.view.LayoutInflater;
@@ -29,17 +31,17 @@ public class BarChartView extends TiUIView {
 	
 	 public void setShowBarText(boolean show){
 		 barGraph.setShowBarText(show);
-	    }
+	 }
 	    
-	    public void setBars(ArrayList<Bar> points){
-	       barGraph.setBars(points);
-	    }
+	 public void setBars(ArrayList<Bar> points){
+	     barGraph.setBars(points);
+	 }
 	    
-	    public ArrayList<Bar> getBars(){
-	        return barGraph.getBars();
-	    }
-	    public void setOnBarClickedListener(OnBarClickedListener listener) {
-	    	barGraph.setOnBarClickedListener(listener);
-	    }
+	public ArrayList<Bar> getBars(){
+	    return barGraph.getBars();
+	}
+	public void setOnBarClickedListener(OnBarClickedListener listener) {
+	    barGraph.setOnBarClickedListener(listener);
+	}
 
 }

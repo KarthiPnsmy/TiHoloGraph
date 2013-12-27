@@ -21,6 +21,9 @@ import org.appcelerator.titanium.view.TiCompositeLayout.LayoutArrangement;
 import org.appcelerator.titanium.view.TiUIView;
 import org.json.JSONArray;
 
+import com.echo.holographlibrary.PieGraph;
+import com.echo.holographlibrary.PieSlice;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
