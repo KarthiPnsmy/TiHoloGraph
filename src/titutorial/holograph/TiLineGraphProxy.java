@@ -5,30 +5,24 @@ import java.util.HashMap;
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.proxy.TiViewProxy;
-import org.appcelerator.titanium.view.TiUIView;
 
-import com.echo.holographlibrary.Bar;
 import com.echo.holographlibrary.Line;
-import com.echo.holographlibrary.LineGraph.OnPointClickedListener;
 import com.echo.holographlibrary.LinePoint;
-import com.echo.holographlibrary.BarGraph.OnBarClickedListener;
+import com.echo.holographlibrary.LineGraph.OnPointClickedListener;
 
 import android.app.Activity;
 import android.graphics.Color;
 
 @Kroll.proxy(creatableInModule = HolographModule.class)
-public class LineChartProxy extends TiViewProxy {
-	
+public class TiLineGraphProxy extends TiViewProxy{
 	LineChartView lineChartView;
 	Object[] data = null;
 	String lineColor = "#FFBB33";
 	Integer lineToFill = 0;
 	Object[] rangeY = null;
 	boolean hasPointClickListener = false;
-	
-	@SuppressWarnings("unchecked")
 	@Override
-	public LineChartView createView(Activity activity) {
+	public LineChartView createView(Activity arg0) {
 		hasPointClickListener = hasListeners("pointClick");
 		System.out.println("@@## line hasPointClickListener = "+hasPointClickListener);
 		
@@ -37,7 +31,7 @@ public class LineChartProxy extends TiViewProxy {
 		
 		for (Object lineObject : data) {
 			Line line = new Line();
-			HashMap<String, Object> lineObjectHashMap = (HashMap<String, Object>) lineObject;
+			HashMap lineObjectHashMap = (HashMap) lineObject;
 			
 			Object[] linePoints = (Object[]) lineObjectHashMap.get("points");
 			

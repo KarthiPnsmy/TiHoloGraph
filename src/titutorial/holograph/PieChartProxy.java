@@ -1,5 +1,6 @@
 package titutorial.holograph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.appcelerator.kroll.KrollDict;
@@ -9,77 +10,61 @@ import org.appcelerator.titanium.view.TiUIView;
 
 import com.echo.holographlibrary.Bar;
 import com.echo.holographlibrary.Line;
+import com.echo.holographlibrary.PieGraph;
+import com.echo.holographlibrary.PieGraph.OnSliceClickedListener;
+import com.echo.holographlibrary.PieSlice;
 import com.echo.holographlibrary.LineGraph.OnPointClickedListener;
 import com.echo.holographlibrary.LinePoint;
 import com.echo.holographlibrary.BarGraph.OnBarClickedListener;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
 
 @Kroll.proxy(creatableInModule = HolographModule.class)
 public class PieChartProxy extends TiViewProxy {
 	
-	LineChartView lineChartView;
+	PieChartView pieChartView;
 	Object[] data = null;
-	String lineColor = "#FFBB33";
-	Integer lineToFill = 0;
-	Object[] rangeY = null;
-	boolean hasPointClickListener = false;
+	ArrayList<PieSlice> slices = new ArrayList<PieSlice>();
+	boolean hasSliceClickListener = false;
 	
 	@Override
-	public LineChartView createView(Activity activity) {
-		hasPointClickListener = hasListeners("pointClick");
-		System.out.println("@@## hasPointClickListener = "+hasPointClickListener);
-		
-		lineChartView = new LineChartView(this);
-		
-		for (Object lineObject : data) {
-			Line line = new Line();
-			HashMap lineObjectHashMap = (HashMap) lineObject;
-			Object[] linePoints = (Object[]) lineObjectHashMap.get("points");
-			
-			//adding line points
-			for(int k = 0; k< linePoints.length; k++){
-				Object[] item = (Object[]) linePoints[k];
-					Float x = new Float((Integer) item[0]);
-					Float y = new Float((Integer) item[1]);
-					LinePoint lPoint = new LinePoint(x,y);
-					line.addPoint(lPoint);
-					System.out.println("@@## x  = "+x+", y = "+y);
+	public PieChartView createView(Activity activity) {
+		hasSliceClickListener = hasListeners("sliceClick");
+		System.out.println("@@## hasSliceClickListener = "+hasSliceClickListener);
+
+		pieChartView = new PieChartView(this);
+		slices = new ArrayList<PieSlice>();
+		if(data.length > 0){
+			for(int k = 0; k< data.length; k++){
+				Object[] item = (Object[]) data[k];
+				System.out.println("@@## item len  = "+item.length);
+				PieSlice slice = new PieSlice();
+				slice.setColor(Color.parseColor((String) item[1]));
+				System.out.println("@@## before val  = "+item[2]);
+				Float val = new Float((Integer) item[2]);
+				System.out.println("@@## after val  = "+val);
+				slice.setValue(val);
+				slices.add(slice);
 			}
-			
-			//adding line color
-			String lColor=(String) lineObjectHashMap.get("lineColor");
-			line.setColor(Color.parseColor(lColor));
-			lineChartView.addLine(line);
-			
-			//adding rangeY
-			if(rangeY != null && rangeY.length > 0){
-				Float a = new Float((Integer) rangeY[0]);
-				Float b = new Float((Integer) rangeY[1]);
-				lineChartView.setRangeY(a, b);
-			} 
-			
-			//adding lineToFill
-			lineChartView.setLineToFill(lineToFill);
-		} 
+			pieChartView.setSlices(slices);
+		}
 		
-		lineChartView.setOnPointClickedListener(new OnPointClickedListener() {
+		pieChartView.setOnSliceClickedListener(new OnSliceClickedListener() {
 			
 			@Override
-			public void onClick(int lineIndex, int pointIndex) {
-				//adding line color//adding line color
-				if(hasPointClickListener){
+			public void onClick(int index) {
+				if(hasSliceClickListener){
 					KrollDict props = new KrollDict();
-					props.put("lineIndex", lineIndex);
-					props.put("pointIndex", pointIndex);
+					props.put("index", index);
 					fireEvent("pointClick", props);
 				}
-				
 			}
 		});
-		
-		return lineChartView;
+
+		return pieChartView;
 	}
 	
 	// Handle creation options
@@ -89,18 +74,6 @@ public class PieChartProxy extends TiViewProxy {
 		
 		if (options.containsKey("data")) {
 			data = (Object[]) options.get("data");
-		}
-		
-		if (options.containsKey("lineToFill")) {
-			lineToFill = options.getInt("lineToFill");
-		} else {
-			System.out.println("@@## no key lineToFill ");
-		}
-		
-		if (options.containsKey("rangeY")) {
-			rangeY = (Object[]) options.get("rangeY");
-		} else {
-			System.out.println("@@## no key rangeY ");
 		}
 	}
 }
