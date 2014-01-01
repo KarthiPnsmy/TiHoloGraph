@@ -59,7 +59,7 @@ public class PieChartProxy extends TiViewProxy {
 				if(hasSliceClickListener){
 					KrollDict props = new KrollDict();
 					props.put("index", index);
-					fireEvent("pointClick", props);
+					fireEvent("sliceClick", props);
 				}
 			}
 		});

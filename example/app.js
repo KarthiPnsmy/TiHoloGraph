@@ -9,18 +9,19 @@ var scrollView = Ti.UI.createScrollView({
 });
 
 var pieChart = holograph.createPieChart({
-	data : [['Heavy Industry', '#99CC00', 12], ['Retail', '#FFBB33', 9], ['Light Industry', '#FE2E2E', 14], ['Out of home', '#0101DF', 16], ['Commuting', '#BCF5A9', 7], ['Orientation', '#BCF5A9', 9]],
+	data : [['Heavy Industry', '#99CC00', 12], ['Retail', '#FFBB33', 9], ['Light Industry', '#FE2E2E', 14], ['Out of home', '#0101DF', 16], ['Commuting', '#BCF5A9', 7]],
 	top : 100,
 	left : 20
 });
 scrollView.add(pieChart);
+
 pieChart.addEventListener('sliceClick', function(e) {
-	alert("pointIndex = " + e.pointIndex + ", lineIndex = " + e.lineIndex);
+	alert("index = " + e.index);
 });
 
-var tmp2 = [['Heavy Industry', '#99CC00', 12], ['Retail', '#FFBB33', 9], ['Light Industry', '#FE2E2E', 14], ['Out of home', '#0101DF', 16]];
+var barData = [['Heavy Industry', '#99CC00', 12], ['Retail', '#FFBB33', 9], ['Light Industry', '#FE2E2E', 14]];
 var barChart = holograph.createBarChart({
-	data : [['Heavy Industry', '#99CC00', 12], ['Retail', '#FFBB33', 9]],
+	data : barData,
 	top : 100,
 	left : 20
 });
@@ -56,4 +57,3 @@ lineChart.addEventListener('pointClick', function(e) {
 
 win.add(scrollView);
 win.open();
-
