@@ -19,7 +19,7 @@ import android.graphics.Color;
 @Kroll.proxy(creatableInModule = HolographModule.class)
 public class LineChartProxy extends TiViewProxy {
 	
-	PieChartView pieChartView;
+	LineChartView lineChartView;
 	Object[] data = null;
 	String lineColor = "#FFBB33";
 	Integer lineToFill = 0;
@@ -27,11 +27,11 @@ public class LineChartProxy extends TiViewProxy {
 	boolean hasPointClickListener = false;
 	
 	@Override
-	public PieChartView createView(Activity activity) {
+	public LineChartView createView(Activity activity) {
 		hasPointClickListener = hasListeners("pointClick");
-		System.out.println("@@## hasPointClickListener = "+hasPointClickListener);
+		System.out.println("@@##  = "+hasPointClickListener);
 		
-		pieChartView = new PieChartView(this);
+		lineChartView = new LineChartView(this);
 		
 		for (Object lineObject : data) {
 			Line line = new Line();
@@ -51,20 +51,20 @@ public class LineChartProxy extends TiViewProxy {
 			//adding line color
 			String lColor=(String) lineObjectHashMap.get("lineColor");
 			line.setColor(Color.parseColor(lColor));
-			pieChartView.addLine(line);
+			lineChartView.addLine(line);
 			
 			//adding rangeY
 			if(rangeY != null && rangeY.length > 0){
 				Float a = new Float((Integer) rangeY[0]);
 				Float b = new Float((Integer) rangeY[1]);
-				pieChartView.setRangeY(a, b);
+				lineChartView.setRangeY(a, b);
 			} 
 			
 			//adding lineToFill
-			pieChartView.setLineToFill(lineToFill);
+			lineChartView.setLineToFill(lineToFill);
 		} 
 		
-		pieChartView.setOnPointClickedListener(new OnPointClickedListener() {
+		lineChartView.setOnPointClickedListener(new OnPointClickedListener() {
 			
 			@Override
 			public void onClick(int lineIndex, int pointIndex) {
@@ -79,7 +79,7 @@ public class LineChartProxy extends TiViewProxy {
 			}
 		});
 		
-		return pieChartView;
+		return lineChartView;
 	}
 	
 	// Handle creation options
@@ -89,6 +89,14 @@ public class LineChartProxy extends TiViewProxy {
 		
 		if (options.containsKey("data")) {
 			data = (Object[]) options.get("data");
+		}
+		
+		if (options.containsKey("rangeY")) {
+			rangeY = (Object[]) options.get("rangeY");
+		}
+		
+		if (options.containsKey("lineToFill")) {
+			lineToFill = options.getInt("lineToFill");
 		}
 	}
 }

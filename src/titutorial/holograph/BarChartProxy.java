@@ -54,8 +54,6 @@ public class BarChartProxy extends TiViewProxy {
 		if (options.containsKey("data")) {
 			data = (Object[]) options.get("data");
 			createBars(data);
-		} else {
-			System.out.println("@@## no key data ");
 		}
 	}
 	
