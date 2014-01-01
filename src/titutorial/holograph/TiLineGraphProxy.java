@@ -6,37 +6,39 @@ import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.proxy.TiViewProxy;
 
+import com.echo.holographlibrary.Line;
+import com.echo.holographlibrary.LinePoint;
+import com.echo.holographlibrary.LineGraph.OnPointClickedListener;
+
 import android.app.Activity;
 import android.graphics.Color;
 
-import com.echo.holographlibrary.Line;
-import com.echo.holographlibrary.LineGraph.OnPointClickedListener;
-import com.echo.holographlibrary.LinePoint;
-
 @Kroll.proxy(creatableInModule = HolographModule.class)
-public class LineChartProxy extends TiViewProxy {
-	
+public class TiLineGraphProxy extends TiViewProxy{
 	LineChartView lineChartView;
 	Object[] data = null;
 	String lineColor = "#FFBB33";
 	Integer lineToFill = 0;
 	Object[] rangeY = null;
 	boolean hasPointClickListener = false;
-	
-	@SuppressWarnings("unchecked")
 	@Override
-	public LineChartView createView(Activity activity) {
+	public LineChartView createView(Activity arg0) {
 		hasPointClickListener = hasListeners("pointClick");
-		System.out.println("@@## hasPointClickListener = "+hasPointClickListener);
+		System.out.println("@@## line hasPointClickListener = "+hasPointClickListener);
 		
 		lineChartView = new LineChartView(this);
+		System.out.println("@@## line lineChartView = "+lineChartView);
 		
 		for (Object lineObject : data) {
 			Line line = new Line();
-			HashMap<String, Object> lineObjectHashMap = (HashMap<String, Object>) lineObject;
+			HashMap lineObjectHashMap = (HashMap) lineObject;
 			
 			Object[] linePoints = (Object[]) lineObjectHashMap.get("points");
 			
+			
+			//adding line color
+			String lColor=(String) lineObjectHashMap.get("lineColor");
+			line.setColor(Color.parseColor(lColor));
 			//adding line points
 			for(int k = 0; k< linePoints.length; k++){
 				Object[] item = (Object[]) linePoints[k];
@@ -47,9 +49,8 @@ public class LineChartProxy extends TiViewProxy {
 					System.out.println("@@## line x  = "+x+", y = "+y);
 			}
 			
-			//adding line color
-			lineColor=(String) lineObjectHashMap.get("lineColor");
-			line.setColor(Color.parseColor(lineColor));
+			
+			System.out.println("@@## line = "+line);
 			lineChartView.addLine(line);
 			
 			//adding rangeY
@@ -60,6 +61,7 @@ public class LineChartProxy extends TiViewProxy {
 			} 
 			
 			//adding lineToFill
+			System.out.println("@@## line lineToFill = "+lineToFill);
 			lineChartView.setLineToFill(lineToFill);
 		} 
 		
@@ -87,14 +89,6 @@ public class LineChartProxy extends TiViewProxy {
 		
 		if (options.containsKey("data")) {
 			data = (Object[]) options.get("data");
-		}
-		
-		if (options.containsKey("rangeY")) {
-			rangeY = (Object[]) options.get("rangeY");
-		}
-		
-		if (options.containsKey("lineToFill")) {
-			lineToFill = options.getInt("lineToFill");
 		}
 	}
 }
