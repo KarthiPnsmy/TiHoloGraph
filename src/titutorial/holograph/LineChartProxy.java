@@ -20,7 +20,7 @@ public class LineChartProxy extends TiViewProxy {
 	Object[] data = null;
 	String lineColor = "#FFBB33";
 	Integer lineToFill = 0;
-	Object[] rangeY = null;
+	Object[] rangeY = {0, 10};
 	boolean hasPointClickListener = false;
 	
 	@SuppressWarnings("unchecked")
